@@ -1,3 +1,5 @@
+using DataAccess.Interfaces;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +46,13 @@ namespace AdrianCloudAssigment
 
             services.AddRazorPages();
             services.AddControllersWithViews();
+
+            string projectName = Configuration["project"];
+
+            services.AddScoped<IFireStoreDataAccess, FireStoreDataAccess>(x =>
+            {
+                return new FireStoreDataAccess(projectName);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

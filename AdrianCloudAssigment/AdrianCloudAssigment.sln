@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianCloudAssigment", "AdrianCloudAssigment\AdrianCloudAssigment.csproj", "{26FF2F6B-D254-4019-8A21-F30AD76A854D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianCloudAssigment", "AdrianCloudAssigment\AdrianCloudAssigment.csproj", "{26FF2F6B-D254-4019-8A21-F30AD76A854D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{ED97C81C-0141-4A8A-A16B-E74EDCA38A38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{3A1147D4-BBEF-442F-B535-91FC48DEDFF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{26FF2F6B-D254-4019-8A21-F30AD76A854D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26FF2F6B-D254-4019-8A21-F30AD76A854D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26FF2F6B-D254-4019-8A21-F30AD76A854D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED97C81C-0141-4A8A-A16B-E74EDCA38A38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED97C81C-0141-4A8A-A16B-E74EDCA38A38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED97C81C-0141-4A8A-A16B-E74EDCA38A38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED97C81C-0141-4A8A-A16B-E74EDCA38A38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1147D4-BBEF-442F-B535-91FC48DEDFF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1147D4-BBEF-442F-B535-91FC48DEDFF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1147D4-BBEF-442F-B535-91FC48DEDFF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1147D4-BBEF-442F-B535-91FC48DEDFF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
