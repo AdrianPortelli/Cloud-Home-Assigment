@@ -17,10 +17,6 @@ namespace Common
 
     }
 
-    //missing file 
-    //missing converted files
-    //missing download links
-
     [FirestoreData]
     public class File
     {
@@ -28,16 +24,13 @@ namespace Common
         public string Id { get; set; }
 
         [FirestoreProperty]
-        public string DateUploaded { get; set; }
-
-        [FirestoreProperty]
         public string FileName { get; set; }
 
-        [FirestoreProperty]
-        public string FileUrl { get; set; }
+        [FirestoreProperty, ServerTimestamp]
+        public Timestamp DateUploaded { get; set; }
 
         [FirestoreProperty]
-        public string DownloadLink { get; set; }
+        public string FileLink { get; set; }
     }
 
 }

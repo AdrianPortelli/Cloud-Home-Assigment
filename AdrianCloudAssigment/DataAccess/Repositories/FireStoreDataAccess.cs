@@ -32,9 +32,11 @@ namespace DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public void UploadFile(string email, File file)
+        public async Task<WriteResult> UploadFile(string email, File file)
         {
-            throw new NotImplementedException();
+            DocumentReference docRef = db.Collection("users").Document(email).Collection("files").Document(file.Id);
+
+            return await docRef.SetAsync(file);
         }
 
         public async Task<User> GetUser(string email)
@@ -52,6 +54,25 @@ namespace DataAccess.Repositories
                 return null;
                
             }
+        }
+
+        public async Task<List<File>> GetFiles(string email)
+        {
+
+            if ((await GetUser(email)) == null) return new List<File>();
+
+            Query fileQuery = db.Collection("users").Document(email).Collection("files");
+            QuerySnapshot fileQuerySnapshot = await fileQuery.GetSnapshotAsync();
+
+            List<File> files = new List<File>();
+
+            foreach(DocumentSnapshot documentSnapshot in fileQuerySnapshot)
+            {
+                files.Add(documentSnapshot.ConvertTo<File>());
+            }
+
+            return files;
+
         }
     }
 }

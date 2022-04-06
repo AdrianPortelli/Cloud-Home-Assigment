@@ -1,4 +1,5 @@
 ﻿using Common;
+using Google.Cloud.Firestore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,9 +14,11 @@ namespace DataAccess.Interfaces
 
         void UpdateUserCredit(User user);
 
-        void UploadFile(string email, File file);
+        Task<WriteResult> UploadFile(string email, File file);
 
         void DeleteUser(string email);
+
+        Task<List<File>> GetFiles(string email);
 
     }
 }
