@@ -15,10 +15,12 @@ namespace AdrianCloudAssigment.Controllers
     public class UsersController : Controller
     {
         private IFireStoreDataAccess fireStore;
+        private ICacheRepository cacheRepo;
 
-        public UsersController(IFireStoreDataAccess _firestore)
+        public UsersController(IFireStoreDataAccess _firestore, ICacheRepository _cacheRepo)
         {
             fireStore = _firestore;
+            cacheRepo = _cacheRepo;
         }
 
         [Authorize]
@@ -77,6 +79,30 @@ namespace AdrianCloudAssigment.Controllers
         {
             var files = await fireStore.GetFiles(User.Claims.ElementAt(4).Value);
             return View(files);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddCredit()
+        {
+            var menuitem = cacheRepo.GetMenus();
+            return View(menuitem);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddCredit(int value,int price)
+        {
+            if (price >= value) {
+
+                User user =  await fireStore.GetUser(User.Claims.ElementAt(4).Value);
+
+                int newCredit = user.Credit + value;
+
+                await fireStore.UpdateUserCredit(User.Claims.ElementAt(4).Value, newCredit);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

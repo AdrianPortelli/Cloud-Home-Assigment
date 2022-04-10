@@ -11,5 +11,7 @@ namespace DataAccess.Interfaces
 
         public void UpdateMenus(List<MenuItem> Items);
 
+        public void AddMenu(MenuItem item);
+
     }
 }

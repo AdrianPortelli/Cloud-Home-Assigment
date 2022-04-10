@@ -27,10 +27,15 @@ namespace DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public void UpdateUserCredit(User user)
+        public async Task<WriteResult> UpdateUserCredit(string email, int value)
         {
-            throw new NotImplementedException();
+            DocumentReference docRef = db.Collection("users").Document(email);
+            return await docRef.UpdateAsync("Credit", value);
         }
+
+
+
+
 
         public async Task<WriteResult> UploadFile(string email, File file)
         {

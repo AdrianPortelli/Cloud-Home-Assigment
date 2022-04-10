@@ -12,7 +12,7 @@ namespace DataAccess.Interfaces
         Task<User> GetUser(string email);
         void AddUser(User user);
 
-        void UpdateUserCredit(User user);
+        Task<WriteResult>  UpdateUserCredit(string email, int value);
 
         Task<WriteResult> UploadFile(string email, File file);
 

@@ -19,14 +19,33 @@ namespace AdrianCloudAssigment.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(MenuItem menuItem  )
+        {
+            cacheRepo.AddMenu(menuItem);
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult Update()
+        {
             return View(cacheRepo.GetMenus());
         }
 
         [HttpPost]
-        public IActionResult Create(List<MenuItem> menuItems)
+        public IActionResult Update(List<MenuItem> menuItems)
         {
             cacheRepo.UpdateMenus(menuItems);
-            return View();
+            return RedirectToAction("List");
+        }
+
+        public IActionResult List()
+        {
+            return View(cacheRepo.GetMenus());
         }
     }
 }

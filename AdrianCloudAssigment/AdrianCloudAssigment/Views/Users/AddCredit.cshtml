@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Common.MenuItem>
+@{
+    ViewData["Title"] = "AddCredit";
+}
+<h2>Menu Item</h2>
+<form asp-action="AddCredit" method="post">
+    <div class="form-group">
+        <label class="control-label">Enter Price</label>
+        <input type="number" name="price" class="form-control" />
+        <label class="control-label" for="value">Choose a Payment Type :</label>
+        <select name="value" id="values">
+            @foreach (var item in Model)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+

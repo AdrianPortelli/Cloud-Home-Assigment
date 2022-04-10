@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Common.MenuItem>
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+
+<h4>MenuItem</h4>
+<hr />
+<form method="post">
+    @foreach (var menu in Model)
+    {
+
+        <table>
+            <tr>
+                <td>Text:</td>
+                <td><input type="text"  value="@menu.Text" name="Text" /></td>
+            </tr>
+            <tr>
+                <td>Value:</td>
+                <td><input type="number" value="@menu.Value" name="Value" /></td>
+            </tr>
+            <tr>
+                <td>Order:</td>
+                <td><input type="number" value="@menu.Order" name="Order" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><hr/></td>
+            </tr>
+        </table>
+
+    }
+<input type="submit" value="Update Items" />
+</form>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

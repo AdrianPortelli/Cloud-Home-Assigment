@@ -42,5 +42,15 @@ namespace DataAccess.Repositories
 
             myDatabase.StringSet("menuItems", myList);
         }
+
+        public void AddMenu(MenuItem item)
+        {
+            var myList = GetMenus();
+            myList.Add(item); 
+            string myjsonstring = JsonConvert.SerializeObject(myList);
+            myDatabase.StringSet("menuItems", myjsonstring);
+        }
+
     }
 }
+
