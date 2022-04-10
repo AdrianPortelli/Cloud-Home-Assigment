@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Common.MenuItem>
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Insert New Menu Item:</h4>
+<form action="/admin/create">
+    <table>
+        <tr>
+            <td>Text:</td>
+            <td><input type="text" name="Text" /></td>
+
+        </tr>
+        <tr>
+            <td>Value:</td>
+            <td><input type="text" name="Value" /></td>
+
+        </tr>
+        <tr>
+            <td>Order:</td>
+            <td><input type="number" name="Order" /></td>
+
+        </tr>
+
+    </table>
+
+    <hr />
+    <h4>Upadate Menu Items:</h4>
+    <table>
+        @foreach (var menu in Model)
+        {
+
+            <tr>
+                <td>Text:</td>
+                <td><input type="text" value="@menu.Text" name="Text" /></td>
+
+            </tr>
+            <tr>
+                <td>Value:</td>
+                <td><input type="text" value="@menu.Value" name="Value" /></td>
+
+            </tr>
+            <tr>
+                <td>Order:</td>
+                <td><input type="number" value="@menu.Order" name="Order" /></td>
+
+            </tr>
+            <tr>
+                <td colspan="2"><hr /></td>
+
+            </tr>
+
+        }
+    </table>
+    <hr/>
+    <input type="submit" value="Upsert" />
+</form>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
