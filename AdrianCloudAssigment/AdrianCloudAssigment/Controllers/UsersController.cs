@@ -16,9 +16,11 @@ namespace AdrianCloudAssigment.Controllers
     {
         private IFireStoreDataAccess fireStore;
         private ICacheRepository cacheRepo;
+        private IPubSubRepository pubSubRepo;
 
-        public UsersController(IFireStoreDataAccess _firestore, ICacheRepository _cacheRepo)
+        public UsersController(IFireStoreDataAccess _firestore, ICacheRepository _cacheRepo, IPubSubRepository _pubSubRepo)
         {
+            pubSubRepo = _pubSubRepo;
             fireStore = _firestore;
             cacheRepo = _cacheRepo;
         }
@@ -66,9 +68,20 @@ namespace AdrianCloudAssigment.Controllers
                 storage.UploadObject(bucketName, fileName, null,fsIN);
             }
 
+            using ( var ms = new MemoryStream())
+            {
+                fileupload.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                string s = Convert.ToBase64String(fileBytes);
+                file.fileBase64 = s;
+            }
+
             file.Id = fileName;
             file.FileName = fileupload.FileName;
             file.FileLink = $"https://storage.googleapis.com/{bucketName}/{fileName}";
+           
+        
+
             fireStore.UploadFile(User.Claims.ElementAt(4).Value, file);
 
             return RedirectToAction("List");
@@ -103,6 +116,16 @@ namespace AdrianCloudAssigment.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ConvertToPDF(string fileId)
+        {
+          
+           Common.File fileInfo = await fireStore.GetFile(User.Claims.ElementAt(4).Value, fileId);
+           await pubSubRepo.Publish(fileInfo);
+
+            return RedirectToAction("List");
         }
     }
 }

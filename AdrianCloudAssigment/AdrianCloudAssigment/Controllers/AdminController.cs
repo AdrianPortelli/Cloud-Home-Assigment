@@ -23,7 +23,7 @@ namespace AdrianCloudAssigment.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(MenuItem menuItem  )
+        public IActionResult Create(MenuItem menuItem)
         {
             cacheRepo.AddMenu(menuItem);
             return View();
@@ -33,13 +33,16 @@ namespace AdrianCloudAssigment.Controllers
         [HttpGet]
         public IActionResult Update()
         {
-            return View(cacheRepo.GetMenus());
+            MenuItemList menuItemList = new MenuItemList();
+            menuItemList.menuitemsUpdate = cacheRepo.GetMenus();
+
+            return View(menuItemList);
         }
 
         [HttpPost]
-        public IActionResult Update(List<MenuItem> menuItems)
+        public IActionResult Update(MenuItemList menuItems)
         {
-            cacheRepo.UpdateMenus(menuItems);
+            cacheRepo.UpdateMenus(menuItems.menuitemsUpdate);
             return RedirectToAction("List");
         }
 

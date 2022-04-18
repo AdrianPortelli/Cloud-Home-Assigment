@@ -26,11 +26,12 @@ namespace Common
         [FirestoreProperty]
         public string FileName { get; set; }
 
-        [FirestoreProperty, ServerTimestamp]
-        public Timestamp DateUploaded { get; set; }
-
         [FirestoreProperty]
         public string FileLink { get; set; }
+
+        [FirestoreProperty]
+
+        public string fileBase64 { get; set; }
     }
 
 }

@@ -10,4 +10,9 @@ namespace Common
         public int Value { get; set; }
         public int Order { get; set; }
     }
+
+    public class MenuItemList
+    {
+        public List<MenuItem> menuitemsUpdate { get; set; }
+    }
 }

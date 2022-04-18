@@ -60,6 +60,12 @@ namespace AdrianCloudAssigment
                 return new CacheRepository(redis);
             });
 
+            string topicName = Configuration["topic"];
+
+            services.AddScoped<IPubSubRepository, PubSubRepository>(x => 
+            {
+                return new PubSubRepository(projectName, topicName);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

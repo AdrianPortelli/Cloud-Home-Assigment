@@ -24,6 +24,8 @@ namespace DataAccess.Repositories
         {
             var myList = myDatabase.StringGet("menuItems");
 
+            /*myDatabase.KeyDelete("menuItems");*/
+
             if (myList.IsNullOrEmpty)
             {
                 return new List<MenuItem>();
@@ -38,9 +40,15 @@ namespace DataAccess.Repositories
 
         public void UpdateMenus(List<MenuItem> Items)
         {
-           string myList = JsonConvert.SerializeObject(Items);
+            /*           string myList = JsonConvert.SerializeObject(Items);
 
-            myDatabase.StringSet("menuItems", myList);
+                        myDatabase.StringSet("menuItems", myList);*/
+
+            myDatabase.KeyDelete("menuItems");
+            foreach (var item in Items)
+            {
+                AddMenu(item);
+            }
         }
 
         public void AddMenu(MenuItem item)

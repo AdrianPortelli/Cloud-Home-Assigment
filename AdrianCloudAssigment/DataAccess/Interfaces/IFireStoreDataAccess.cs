@@ -20,5 +20,7 @@ namespace DataAccess.Interfaces
 
         Task<List<File>> GetFiles(string email);
 
+        Task<Common.File> GetFile(string email, string fileID);
+
     }
 }

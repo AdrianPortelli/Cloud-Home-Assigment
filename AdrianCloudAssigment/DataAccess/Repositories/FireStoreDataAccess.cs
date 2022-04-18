@@ -79,5 +79,22 @@ namespace DataAccess.Repositories
             return files;
 
         }
+
+        public async Task<Common.File> GetFile(string email, string fileID)
+        {
+            DocumentReference docRef = db.Collection("users").Document(email).Collection("files").Document(fileID);
+            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+            if (snapshot.Exists)
+            {
+                Common.File myFile = snapshot.ConvertTo<Common.File>();
+                return myFile;
+
+            }
+            else
+            {
+                return null;
+
+            }
+        }
     }
 }
