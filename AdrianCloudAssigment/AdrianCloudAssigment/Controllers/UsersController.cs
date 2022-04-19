@@ -63,15 +63,18 @@ namespace AdrianCloudAssigment.Controllers
             var storage = StorageClient.Create();
 
 
-            using(Stream fsIN = fileupload.OpenReadStream())
+   /*         using(Stream fsIN = fileupload.OpenReadStream())
             {
-                storage.UploadObject(bucketName, fileName, null,fsIN);
-            }
+               
+            }*/
 
             using ( var ms = new MemoryStream())
             {
                 fileupload.CopyTo(ms);
-                var fileBytes = ms.ToArray();
+                Byte[] fileBytes = ms.ToArray();
+
+                storage.UploadObject(bucketName, fileName, null, ms);
+
                 string s = Convert.ToBase64String(fileBytes);
                 file.fileBase64 = s;
             }
