@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using Google.Cloud.Storage.V1;
 using System.Net.Http;
 using System;
+using Google.Cloud.Firestore;
+
 
 namespace cloudassigmentfunction
 {
@@ -33,12 +35,14 @@ namespace cloudassigmentfunction
 
                 string fileBase64 = myObj.fileBase64.ToString();
                 string fileNameFromPubSub = myObj.FileName.ToString();
+                string fileId = myObj.Id.ToString();
+                string fileOwnerEmail = myObj.FileOwnerEmail.ToString();
 
                 _logger.LogInformation(fileBase64);
 
             	RestClient client = new RestClient ("https://getoutpdf.com/api/convert/document-to-pdf");
                 RestRequest request = new RestRequest ();
-                request.AddParameter ("api_key", "ef50c758be7e029d36c57d50187147b36a81742bbf165e8001ebdabcb0374d89");
+                request.AddParameter ("api_key", "b6d63619f3c99231534ab07c27cd50c0aef35d55272407a2ed546c3cfbb08e4a");
                 request.AddParameter("document",fileBase64);
                 
                 request.Method = Method.Post;
@@ -64,13 +68,24 @@ namespace cloudassigmentfunction
                  _logger.LogInformation("Converting pdf");
                 byte[] pdfBytes = Convert.FromBase64String(PdfBase64);
 
+                _logger.LogInformation("Connecting to file Bucket");
+
+                FirestoreDb db = FirestoreDb.Create("cloudhomeassigment");
+                DocumentReference docRef = db.Collection("users").Document(fileOwnerEmail).Collection("files").Document(fileId);
+
+                 string convertedFileUrl = null;
+
                 using(var ms = new MemoryStream(pdfBytes))
                 {
                     
-                    _logger.LogInformation("Converted pdf uploaded");
                     storage.UploadObject(bucketName, fileName, null,ms);
+                    convertedFileUrl = $"https://storage.googleapis.com/{bucketName}/{fileName}";
+
+                    _logger.LogInformation("Converted pdf uploaded");
+                    
                 }
 
+                 docRef.UpdateAsync("ConvertedFileLink", convertedFileUrl).Wait();
 
                 
 

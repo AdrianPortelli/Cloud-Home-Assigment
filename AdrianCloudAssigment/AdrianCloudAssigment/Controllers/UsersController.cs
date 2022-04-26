@@ -82,8 +82,9 @@ namespace AdrianCloudAssigment.Controllers
             file.Id = fileName;
             file.FileName = fileupload.FileName;
             file.FileLink = $"https://storage.googleapis.com/{bucketName}/{fileName}";
-           
-        
+            file.FileOwnerEmail = User.Claims.ElementAt(4).Value;
+
+
 
             fireStore.UploadFile(User.Claims.ElementAt(4).Value, file);
 
@@ -124,11 +125,27 @@ namespace AdrianCloudAssigment.Controllers
         [Authorize]
         public async Task<IActionResult> ConvertToPDF(string fileId)
         {
-          
+            if(reduceUserCredit().Result == false)
+                return RedirectToAction("List");
+
            Common.File fileInfo = await fireStore.GetFile(User.Claims.ElementAt(4).Value, fileId);
            await pubSubRepo.Publish(fileInfo);
 
             return RedirectToAction("List");
+        }
+
+        public async Task<bool> reduceUserCredit()
+        {
+
+            User user = await fireStore.GetUser(User.Claims.ElementAt(4).Value);
+
+            if(user.Credit <= 0)
+                return false;
+
+            await fireStore.UpdateUserCredit(User.Claims.ElementAt(4).Value, user.Credit - 1);
+
+            return true;
+
         }
     }
 }

@@ -32,6 +32,13 @@ namespace Common
         [FirestoreProperty]
 
         public string fileBase64 { get; set; }
+
+        [FirestoreProperty]
+        public string ConvertedFileLink { get; set; }
+
+        [FirestoreProperty]
+        public string FileOwnerEmail { get; set; }
+
     }
 
 }

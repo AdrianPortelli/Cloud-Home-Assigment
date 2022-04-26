@@ -28,7 +28,12 @@
                 @Html.DisplayFor(modelItem => item.FileName)
             </td>
             <td>
-                <a href="@item.FileLink">Download</a>
+
+                @if (!string.IsNullOrEmpty(item.ConvertedFileLink)) {
+                    <a href="@item.ConvertedFileLink"> Download Converted File</a>
+                }
+                <a href="@item.FileLink">Download Document</a>
+
                 <input type="button" value="Convert" onclick="location.href='@Url.Action( "ConvertToPDF", "Users",new { fileId =  item.Id} )'" />
              
             </td>
