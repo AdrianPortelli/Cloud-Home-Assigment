@@ -1,9 +1,11 @@
 ﻿using Common;
 using DataAccess.Interfaces;
+using Google.Cloud.Diagnostics.AspNetCore3;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,12 +19,18 @@ namespace AdrianCloudAssigment.Controllers
         private IFireStoreDataAccess fireStore;
         private ICacheRepository cacheRepo;
         private IPubSubRepository pubSubRepo;
+        private readonly ILogger<UsersController> logger;
 
-        public UsersController(IFireStoreDataAccess _firestore, ICacheRepository _cacheRepo, IPubSubRepository _pubSubRepo)
+
+
+        public UsersController(IFireStoreDataAccess _firestore, ICacheRepository _cacheRepo, IPubSubRepository _pubSubRepo, ILogger<UsersController> _logger)
         {
             pubSubRepo = _pubSubRepo;
             fireStore = _firestore;
             cacheRepo = _cacheRepo;
+            logger = _logger;
+           
+
         }
 
         [Authorize]
@@ -87,6 +95,7 @@ namespace AdrianCloudAssigment.Controllers
 
 
             fireStore.UploadFile(User.Claims.ElementAt(4).Value, file);
+            logger.LogInformation("File uploaded");
 
             return RedirectToAction("List");
         }
@@ -130,6 +139,7 @@ namespace AdrianCloudAssigment.Controllers
 
            Common.File fileInfo = await fireStore.GetFile(User.Claims.ElementAt(4).Value, fileId);
            await pubSubRepo.Publish(fileInfo);
+           logger.LogInformation(fileInfo.FileName + " pushed into queue");
 
             return RedirectToAction("List");
         }
@@ -143,6 +153,7 @@ namespace AdrianCloudAssigment.Controllers
                 return false;
 
             await fireStore.UpdateUserCredit(User.Claims.ElementAt(4).Value, user.Credit - 1);
+            logger.LogInformation(User.Claims.ElementAt(4).Value+" Credits Deducted by 1");
 
             return true;
 

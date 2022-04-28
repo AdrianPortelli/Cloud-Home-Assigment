@@ -1,6 +1,7 @@
 ﻿using Common;
 using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,14 @@ namespace AdrianCloudAssigment.Controllers
     public class AdminController : Controller
     {
         private ICacheRepository cacheRepo;
+        private readonly ILogger<AdminController> logger;
 
-        public AdminController(ICacheRepository _cacheRepo)
+        public AdminController(ICacheRepository _cacheRepo, ILogger<AdminController> _logger)
         {
             cacheRepo = _cacheRepo;
+            logger = _logger;
         }
+
         [HttpGet]
         public IActionResult Create()
         {
